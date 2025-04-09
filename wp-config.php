@@ -21,17 +21,18 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'hoclaixe');
+// ** MySQL settings ** //
+// define('DB_NAME', 'hoclaixe');
+// define('DB_USER', 'root');
+// define('DB_PASSWORD', '');
+// define('DB_HOST', 'localhost'); // MySQL hostname
+// Lấy giá trị từ các biến môi trường
+define('DB_NAME', getenv('WORDPRESS_DB_NAME'));
+define('DB_USER', getenv('WORDPRESS_DB_USER'));
+define('DB_PASSWORD', getenv('WORDPRESS_DB_PASSWORD'));
+define('DB_HOST', getenv('WORDPRESS_DB_HOST'));
 
-/** Database username */
-define('DB_USER', 'root');
-
-/** Database password */
-define('DB_PASSWORD', '');
-
-/** Database hostname */
-define('DB_HOST', 'localhost');
-
+// Cấu hình khác của WordPress
 /** Database charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8mb4');
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Astra functions and definitions
  *
@@ -8,29 +9,29 @@
  * @since 1.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
 /**
  * Define Constants
  */
-define( 'ASTRA_THEME_VERSION', '4.9.0' );
-define( 'ASTRA_THEME_SETTINGS', 'astra-settings' );
-define( 'ASTRA_THEME_DIR', trailingslashit( get_template_directory() ) );
-define( 'ASTRA_THEME_URI', trailingslashit( esc_url( get_template_directory_uri() ) ) );
-define( 'ASTRA_THEME_ORG_VERSION', file_exists( ASTRA_THEME_DIR . 'inc/w-org-version.php' ) );
+define('ASTRA_THEME_VERSION', '4.9.0');
+define('ASTRA_THEME_SETTINGS', 'astra-settings');
+define('ASTRA_THEME_DIR', trailingslashit(get_template_directory()));
+define('ASTRA_THEME_URI', trailingslashit(esc_url(get_template_directory_uri())));
+define('ASTRA_THEME_ORG_VERSION', file_exists(ASTRA_THEME_DIR . 'inc/w-org-version.php'));
 
 /**
  * Minimum Version requirement of the Astra Pro addon.
  * This constant will be used to display the notice asking user to update the Astra addon to the version defined below.
  */
-define( 'ASTRA_EXT_MIN_VER', '4.9.0' );
+define('ASTRA_EXT_MIN_VER', '4.9.0');
 
 /**
  * Load in-house compatibility.
  */
-if ( ASTRA_THEME_ORG_VERSION ) {
+if (ASTRA_THEME_ORG_VERSION) {
 	require_once ASTRA_THEME_DIR . 'inc/w-org-version.php';
 }
 
@@ -42,13 +43,13 @@ require_once ASTRA_THEME_DIR . 'inc/core/class-theme-strings.php';
 require_once ASTRA_THEME_DIR . 'inc/core/common-functions.php';
 require_once ASTRA_THEME_DIR . 'inc/core/class-astra-icons.php';
 
-define( 'ASTRA_WEBSITE_BASE_URL', 'https://wpastra.com' );
+define('ASTRA_WEBSITE_BASE_URL', 'https://wpastra.com');
 
 /**
  * ToDo: Deprecate constants in future versions as they are no longer used in the codebase.
  */
-define( 'ASTRA_PRO_UPGRADE_URL', ASTRA_THEME_ORG_VERSION ? astra_get_pro_url( '/pricing/', 'free-theme', 'dashboard', 'upgrade' ) : 'https://woocommerce.com/products/astra-pro/' );
-define( 'ASTRA_PRO_CUSTOMIZER_UPGRADE_URL', ASTRA_THEME_ORG_VERSION ? astra_get_pro_url( '/pricing/', 'free-theme', 'customizer', 'upgrade' ) : 'https://woocommerce.com/products/astra-pro/' );
+define('ASTRA_PRO_UPGRADE_URL', ASTRA_THEME_ORG_VERSION ? astra_get_pro_url('/pricing/', 'free-theme', 'dashboard', 'upgrade') : 'https://woocommerce.com/products/astra-pro/');
+define('ASTRA_PRO_CUSTOMIZER_UPGRADE_URL', ASTRA_THEME_ORG_VERSION ? astra_get_pro_url('/pricing/', 'free-theme', 'customizer', 'upgrade') : 'https://woocommerce.com/products/astra-pro/');
 
 /**
  * Update theme
@@ -60,7 +61,7 @@ require_once ASTRA_THEME_DIR . 'inc/theme-update/class-astra-theme-background-up
  * Fonts Files
  */
 require_once ASTRA_THEME_DIR . 'inc/customizer/class-astra-font-families.php';
-if ( is_admin() ) {
+if (is_admin()) {
 	require_once ASTRA_THEME_DIR . 'inc/customizer/class-astra-fonts-data.php';
 }
 
@@ -83,7 +84,7 @@ require_once ASTRA_THEME_DIR . 'inc/class-astra-dynamic-css.php';
 require_once ASTRA_THEME_DIR . 'inc/class-astra-global-palette.php';
 
 // Enable NPS Survey only if the starter templates version is < 4.3.7 or > 4.4.4 to prevent fatal error.
-if ( ! defined( 'ASTRA_SITES_VER' ) || version_compare( ASTRA_SITES_VER, '4.3.7', '<' ) || version_compare( ASTRA_SITES_VER, '4.4.4', '>' ) ) {
+if (! defined('ASTRA_SITES_VER') || version_compare(ASTRA_SITES_VER, '4.3.7', '<') || version_compare(ASTRA_SITES_VER, '4.4.4', '>')) {
 	// NPS Survey Integration
 	require_once ASTRA_THEME_DIR . 'inc/lib/class-astra-nps-notice.php';
 	require_once ASTRA_THEME_DIR . 'inc/lib/class-astra-nps-survey.php';
@@ -134,7 +135,7 @@ require_once ASTRA_THEME_DIR . 'inc/schema/class-astra-schema.php';
 /* Setup API */
 require_once ASTRA_THEME_DIR . 'admin/includes/class-astra-api-init.php';
 
-if ( is_admin() ) {
+if (is_admin()) {
 	/**
 	 * Admin Menu Settings
 	 */
@@ -190,14 +191,14 @@ require_once ASTRA_THEME_DIR . 'inc/addons/heading-colors/class-astra-heading-co
 require_once ASTRA_THEME_DIR . 'inc/builder/class-astra-builder-loader.php';
 
 // Elementor Compatibility requires PHP 5.4 for namespaces.
-if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+if (version_compare(PHP_VERSION, '5.4', '>=')) {
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-elementor.php';
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-elementor-pro.php';
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-web-stories.php';
 }
 
 // Beaver Themer compatibility requires PHP 5.3 for anonymous functions.
-if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+if (version_compare(PHP_VERSION, '5.3', '>=')) {
 	require_once ASTRA_THEME_DIR . 'inc/compatibility/class-astra-beaver-themer.php';
 }
 
@@ -209,3 +210,27 @@ require_once ASTRA_THEME_DIR . 'inc/core/markup/class-astra-markup.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-filters.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-hooks.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-functions.php';
+function add_bootstrap_5()
+{
+	// Thêm Bootstrap CSS từ CDN
+	wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css');
+
+	// Thêm Bootstrap JS từ CDN
+	wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
+}
+add_action('wp_enqueue_scripts', 'add_bootstrap_5');
+function my_custom_scripts() {
+    ?>
+    <script type="text/javascript">
+        // Đoạn mã JavaScript của bạn
+       document.addEventListener('keydown', function(e) {
+    // Kiểm tra nếu phím Space (mã phím 32) được nhấn
+    if (e.keyCode === 32) {
+        e.preventDefault(); // Ngừng hành vi mặc định của phím Space
+    }
+});
+
+    </script>
+    <?php
+}
+add_action('wp_footer', 'my_custom_scripts');
