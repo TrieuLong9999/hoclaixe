@@ -247,7 +247,7 @@ function my_custom_scripts()
           return;
         }
         // Gọi API
-        fetch('/wordpress/wp-json/api/v1/get-video') // Đường dẫn API bạn tự setup
+        fetch('/wp-json/api/v1/get-video') // Đường dẫn API bạn tự setup
           .then(res => res.json())
           .then(data => {
             console.log('Dữ liệu từ API:', data);
@@ -495,8 +495,8 @@ function get_video_simulation($request)
 {
   global $wpdb;
 
-  // Ví dụ: Lấy dữ liệu từ bảng custom
-  $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}video_simulation", ARRAY_A);
+  // Giới hạn kết quả là 120 bản ghi
+  $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}video_simulation LIMIT 120", ARRAY_A);
 
   return rest_ensure_response($results);
 }
