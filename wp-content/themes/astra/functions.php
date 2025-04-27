@@ -372,6 +372,61 @@ function my_custom_scripts()
                 videoTag.addEventListener('loadedmetadata', () => {
                   const duration = videoTag.duration;
                   inputRangeCustom.setAttribute('max', duration);
+
+                  //Vẽ các khung màu theo điểm 
+                  const customTimeRangeDiv = document.querySelector(".custom-time-range");
+                  customTimeRangeDiv.style.width = "100%";
+                  customTimeRangeDiv.style.position = "relative";
+                  const backgroudTimeRange = document.querySelector('#range-background');
+                  backgroudTimeRange.style.width = "100%";
+                  // backgroudTimeRange.textContent = "aaaaa"
+                  backgroudTimeRange.style.position = 'relative';
+                  // backgroudTimeRange.style.top = "50%";
+                  backgroudTimeRange.style.left = "0";
+                  backgroudTimeRange.style.height = "6px";
+                  // backgroudTimeRange.style.tranform = "translateY(-50%)";
+                  console.log("backgroudTimeRange", backgroudTimeRange);
+
+                  if (backgroudTimeRange) {
+                    backgroudTimeRange.innerHTML = "";
+                    let maxTime = duration;
+                    let minTime = 0;
+
+                    const videoPlay = data.find(item => item.id === videoActive);
+                    if (videoPlay) {
+                      // console.log("videoPlay", videoPlay);
+
+                      const arrayColors = ["#008000", "#00FF7F", "#FFD700", "#F08080", "#FF0000"];
+                      const distance = Math.abs(videoPlay.z_time1 - videoPlay.z_time2) / 5;
+                      console.log("arrayColors", arrayColors);
+
+                      // Tạo các khung màu
+
+                      console.log("maxTime", maxTime);
+                      console.log("minTime", minTime);
+                      const startPercent = ((Number(videoPlay.z_time2) - Number(minTime)) / (maxTime - minTime)) * 100;
+                      const widthPercent = (distance / (maxTime - minTime)) * 100;
+
+                      for (let i = 0; i < 5; i++) {
+                        const div = document.createElement('div');
+                        div.classList.add('color-segment');
+
+
+                        console.log("startPercent", startPercent + widthPercent * i);
+                        console.log("widthPercent", widthPercent);
+                        console.log("seg", (maxTime - minTime));
+
+                        div.style.position = "absolute";
+                        div.style.left = `${startPercent+widthPercent*i}%`;
+                        div.style.width = `${widthPercent}%`;
+                        div.style.height = '100%';
+                        div.style.backgroundColor = arrayColors[i];
+                        backgroudTimeRange.appendChild(div);
+                      }
+
+                    }
+                  }
+
                 })
 
                 videoTag.addEventListener('timeupdate', () => {
@@ -379,6 +434,8 @@ function my_custom_scripts()
                   inputRangeCustom.value = currentTime;
                 });
               }
+
+
               // nhấn space lấy thời gian video
               document.addEventListener('keydown', function(e) {
                 if (e.keyCode === 32) {
@@ -386,7 +443,7 @@ function my_custom_scripts()
                   const currentTime = Number(videoTag.currentTime);
                   console.log("Thời gian hiện tại của video:", videoActive, currentTime);
                   // Thực hiện hành động khác với thời gian hiện tại nếu cần
-                  if (arrayTimeSpace[videoActive]) {
+                  if (arrayTimeSpace[videoActive] != null) {
                     return;
                   }
                   const dataTimeVideo = data.find((item => item.id === videoActive));
@@ -429,6 +486,21 @@ function my_custom_scripts()
                   console.log("pointExample:", pointExample);
 
                   arrayTimeSpace[videoActive] = pointExample;
+                  //TODO tạo tam giác mũi chúi xuống 
+                  const triangleDown = document.createElement('div');
+                  triangleDown.className = 'triangle-down';
+                  triangleDown.style.position = 'absolute';
+                  triangleDown.style.left = `${currentTime * 100 / videoTag.duration}%`;
+                  triangleDown.style.width = '0';
+                  triangleDown.style.height = '0';
+                  triangleDown.style.borderLeft = " 5px solid transparent";
+                  triangleDown.style.borderRight = "5px solid transparent";
+                  triangleDown.style.borderTop = '10px solid #555';
+                  triangleDown.style.top = "-5px";
+                  // triangleDown.style.backgroundColor = "red";
+                  const backgroudTimeRange = document.querySelector('#range-background');
+                  backgroudTimeRange.appendChild(triangleDown);
+                  console.log("triangleDown", triangleDown);
 
                   if (tableCell) {
                     tableCell.innerHTML = `<span class="text-danger">${pointExample}</span> `;
@@ -477,6 +549,32 @@ function my_custom_scripts()
           });
       }
 
+      function renderBgTime(videoPlay) {
+        const distanceTime = Number(Math.abs(videoPlay.z_time1 - videoPlay.z_time2) / 5);
+        //Vẽ khung màu 
+        const arrayColors = [{
+            start: parseFloat(videoPlay.z_time2),
+            color: "#008000"
+          },
+          {
+            start: parseFloat(videoPlay.z_time2 + distanceTime),
+            color: "#00FF7F"
+          },
+          {
+            start: parseFloat(videoPlay.z_time2 + distanceTime * 2),
+            color: "#FFD700"
+          },
+          {
+            start: parseFloat(videoPlay.z_time2 + distanceTime * 3),
+            color: "#F08080"
+          },
+          {
+            start: parseFloat(videoPlay.z_time2 + distanceTime * 4),
+            color: "#FF0000"
+          },
+        ];
+        return arrayColors;
+      }
     });
   </script>
 <?php
