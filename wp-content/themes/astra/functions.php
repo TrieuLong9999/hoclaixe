@@ -210,6 +210,12 @@ require_once ASTRA_THEME_DIR . 'inc/core/markup/class-astra-markup.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-filters.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-hooks.php';
 require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-functions.php';
+function theme_enqueue_styles()
+{
+  wp_enqueue_style('theme-style', get_stylesheet_uri());
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
+
 function add_bootstrap_5()
 {
   // Thêm Bootstrap CSS từ CDN
@@ -371,7 +377,8 @@ function my_custom_scripts()
               if (inputRangeCustom) {
                 videoTag.addEventListener('loadedmetadata', () => {
                   const duration = videoTag.duration;
-                  inputRangeCustom.setAttribute('max', duration);
+                  inputRangeCustom.max = duration * 1000; // đổi sang ms
+                  inputRangeCustom.step = 1; // mỗi bước là 1ms
 
                   //Vẽ các khung màu theo điểm 
                   const customTimeRangeDiv = document.querySelector(".custom-time-range");
@@ -428,10 +435,20 @@ function my_custom_scripts()
                   }
 
                 })
+                // Cập nhật slider theo video, mượt bằng requestAnimationFrame
+                let animationId;
 
+                function updateSliderSmoothly() {
+                  inputRangeCustom.value = videoTag.currentTime * 1000;
+                  animationId = requestAnimationFrame(updateSliderSmoothly);
+                }
+                videoTag.addEventListener('play', () => {
+                  animationId = requestAnimationFrame(updateSliderSmoothly);
+                });
                 videoTag.addEventListener('timeupdate', () => {
                   const currentTime = videoTag.currentTime;
                   inputRangeCustom.value = currentTime;
+                  inputRangeCustom.style.transition = 'all 0.1s ease';
                 });
               }
 
